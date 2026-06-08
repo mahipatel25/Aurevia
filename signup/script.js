@@ -368,12 +368,15 @@ document.addEventListener('DOMContentLoaded', () => {
         existingUsers.push({ email, password });
         safeSetItem('aetherlist_users', JSON.stringify(existingUsers));
 
+        // Auto-authenticate user and redirect to dashboard
+        safeSetItem("loggedIn", "true");
+
         // Sign Up Success state execution
         playSound('success');
-        showToast("Account created successfully! Redirecting to login... ✨", "success", 2000);
+        showToast("Account created successfully! ✨", "success", 2000);
 
         setTimeout(() => {
-            window.location.replace('../login/index.html');
+            window.location.replace('../todo/index.html');
         }, 1500);
     });
 
