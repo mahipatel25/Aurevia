@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="AetherList Gateway - Sign in to Aurevia's premium digital workspace.">
+    <title>AetherList Gateway // Secure Sign In</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E✨%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css?v=5.6">
+    
+    <!-- Inline Theme Initializer -->
+    <script>
+        (function() {
+            try {
+                var savedTheme = localStorage.getItem('aetherlist_theme');
+                if (savedTheme) {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+                document.documentElement.classList.add('no-transition');
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body>
+    <!-- Center Panel Main Card Holder -->
+    <div class="auth-viewport-wrapper">
+        <div class="auth-card-container">
+            <!-- Floating Theme Toggle (Safely placed in the viewport) -->
+            <button id="theme-toggle" class="theme-toggle-btn floating-theme-btn glass-pill" aria-label="Toggle dark mode">
+                <div class="toggle-track">
+                    <div class="toggle-thumb">
+                        <i data-lucide="moon" class="moon-icon"></i>
+                        <i data-lucide="sun" class="sun-icon"></i>
+                    </div>
+                </div>
+            </button>
+            <div class="auth-card glass-card">
+            
+            <!-- Left Side: Minimal Brand Logo & Dual-Tone Pitch -->
+            <div class="auth-left-section">
+                <!-- Decorative Backdrop Grid/Bubbles -->
+                <div class="background-decorations">
+                    <div class="circle circle-1"></div>
+                    <div class="circle circle-2"></div>
+                </div>
+
+                <div class="left-panel-content">
+                    <!-- Brand Identity Logo -->
+                    <div class="brand-logo-row">
+                        <i data-lucide="sparkle" class="logo-icon-sparkle"></i>
+                        <span class="brand-name-text">Aurevia</span>
+                    </div>
+
+                    <!-- Dual-Tone Heading -->
+                    <h2 class="pitch-heading-hero">
+                        Welcome <span class="purple-highlight">back to</span><br>your digital<br>workspace.
+                    </h2>
+
+                    <!-- Tagline subtitle -->
+                    <p class="pitch-subheading-text">
+                        Log in to manage tasks, explore developers, and stay productive — all in one place.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Side: Minimalism Centered Input Form -->
+            <div class="auth-right-section">
+                
+                <div class="form-container-box">
+                    
+                    <!-- Mobile Logo Branding Block -->
+                    <div class="mobile-brand-header">
+                        <div class="brand-logo-row">
+                            <i data-lucide="sparkle" class="logo-icon-sparkle"></i>
+                            <span class="brand-name-text">Aurevia</span>
+                        </div>
+                    </div>
+
+                    <!-- Unified Pill Tab Switcher -->
+                    <div class="auth-tabs-container">
+                        <div class="auth-tabs-pill">
+                            <a href="../login/index.html" class="auth-tab-btn active">Log In</a>
+                            <a href="../signup/index.html" class="auth-tab-btn">Sign Up</a>
+                        </div>
+                    </div>
+
+                    <!-- Form Header text -->
+                    <div class="form-header-group">
+                        <h2 class="form-main-title">Log In</h2>
+                        <p class="form-sub-tagline">Please enter your details to continue.</p>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="login-form" autocomplete="off">
+                        <!-- Email Input -->
+                        <div class="input-group">
+                            <label for="email-input" class="input-label">Email Address</label>
+                            <div class="input-wrapper-clean" id="email-box">
+                                <input type="email" id="email-input" placeholder="example@gmail.com" required>
+                            </div>
+                        </div>
+
+                        <!-- Password Input -->
+                        <div class="input-group">
+                            <label for="password-input" class="input-label">Password</label>
+                            <div class="input-wrapper-clean" id="password-box">
+                                <input type="password" id="password-input" placeholder="••••••••••••" required minlength="6">
+                                <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility">
+                                    <i data-lucide="eye-off"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Extra Form Controls (Remember Me & Forgot Pass) -->
+                        <div class="form-extra-row">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="remember-me" >
+                                <span class="checkmark"></span>
+                                <span class="checkbox-text">Remember me</span>
+                            </label>
+                            <a href="#" class="forgot-password-link" id="forgot-password">Forgot Password?</a>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submit-btn" class="submit-btn solid-purple-btn">
+                            <span>Log In</span>
+                            <i data-lucide="arrow-right" class="btn-icon"></i>
+                        </button>
+                    </form>
+
+                    <!-- Switch Portal Switcher -->
+                    <div class="card-footer-switch">
+                        <p>Don't have an account? <a href="../signup/index.html" class="switch-link">Create account</a></p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Floating Toast Notification Wrapper -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Main Script -->
+    <script src="script.js?v=5.6"></script>
+</body>
+</html>

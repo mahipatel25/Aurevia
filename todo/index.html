@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="AetherList - A beautiful, high-end, portfolio-ready Glassmorphic To-Do List Web Application. Create, organize, and crush your goals in style.">
+    <title>AetherList // Gamified Focus & Productivity Platform</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E✨%3C/text%3E%3C/svg%3E">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css?v=5.4">
+    
+    <!-- Inline Theme Initializer -->
+    <script>
+        (function() {
+            try {
+                var savedTheme = localStorage.getItem('aetherlist_theme');
+                if (savedTheme) {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+                document.documentElement.classList.add('no-transition');
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body>
+    <!-- Floating Backdrop Decorations -->
+    <div class="background-decorations">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+    </div>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header glass-card">
+            <div class="header-brand">
+                <div class="brand-logo">
+                    <i data-lucide="sparkles" class="logo-icon"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-top-label">AUREVIA'S</span>
+                    <h1>AetherList</h1>
+                    <p class="brand-tagline">ORGANIZE YOUR CHAOS</p>
+                </div>
+            </div>
+            
+            <div class="header-widgets">
+                <!-- Clock & Date Widget - Premium Decoupled Layout -->
+                <div class="datetime-wrapper-v3">
+                    <span id="current-date" class="widget-date-v3">Saturday, 23 May ’26</span>
+                    <div class="time-capsule-v3">
+                        <span id="current-time" class="widget-time-v3">11:26</span>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="theme-toggle-btn glass-pill" aria-label="Toggle dark mode">
+                        <div class="toggle-track">
+                            <div class="toggle-thumb">
+                                <i data-lucide="sun" class="sun-icon"></i>
+                                <i data-lucide="moon" class="moon-icon"></i>
+                            </div>
+                        </div>
+                    </button>
+    
+                    <!-- Logout Button -->
+                    <button id="logout-btn" class="logout-btn glass-pill" aria-label="Logout" title="Logout">
+                        <i data-lucide="log-out" class="logout-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Unified Dashboard Command Center -->
+        <section class="stats-section glass-card" id="dashboard-section">
+            <!-- Command Center Header Controls -->
+            <div class="dashboard-header-row">
+                <div class="dashboard-title-flex">
+                    <i data-lucide="layout-dashboard" class="dashboard-icon"></i>
+                    <h2 class="dashboard-main-heading">Command Center</h2>
+                </div>
+                <button id="dashboard-compact-btn" class="glass-pill toggle-compact-btn" title="Toggle Compact Mode">
+                    <i data-lucide="minimize-2" id="compact-toggle-icon"></i>
+                    <span id="compact-toggle-text">Compact View</span>
+                </button>
+            </div>
+
+            <!-- Full Grid Dashboard View -->
+            <div class="stats-dashboard-grid" id="stats-dashboard-grid">
+                
+                <!-- Left Panel: Progress Overview & Analytics -->
+                <div class="stats-panel-col progress-panel">
+                    <h2 class="stats-title">Progress Overview</h2>
+                    <div class="progress-details-flex">
+                        <div class="progress-ring-container">
+                            <svg class="progress-ring" width="88" height="88" viewBox="0 0 88 88">
+                                <circle class="progress-ring__circle-bg" stroke="rgba(255, 255, 255, 0.12)" stroke-width="7" fill="transparent" r="37" cx="44" cy="44" />
+                                <circle id="progress-ring-bar" class="progress-ring__circle" stroke="url(#progress-gradient)" stroke-width="7" stroke-dasharray="232.48" stroke-dashoffset="232.48" stroke-linecap="round" fill="transparent" r="37" cx="44" cy="44" />
+                                <defs>
+                                    <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#8b5cf6" />
+                                        <stop offset="100%" stop-color="#ec4899" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="progress-ring-text">
+                                <span id="progress-percentage">0%</span>
+                                <span class="progress-text-label">Done</span>
+                            </div>
+                        </div>
+                        <div class="stats-text-block">
+                            <div class="mini-metrics-row">
+                                <span>Total: <strong id="stat-total">0</strong></span>
+                                <span>Pending: <strong id="stat-pending">0</strong></span>
+                                <span>Done: <strong id="stat-completed">0</strong></span>
+                            </div>
+                            <p id="progress-motivation" class="stats-subtitle">No tasks yet. Organize your chaos ✨</p>
+                        </div>
+                    </div>
+                    <!-- Premium Data Visualization: Weekly Activity Trend -->
+                    <div class="weekly-activity-chart">
+                        <span class="chart-title">Weekly Focus Trend</span>
+                        <div class="chart-bars-container">
+                            <div class="chart-bar-col">
+                                <div class="chart-bar-wrapper" title="Mon Completions">
+                                    <div class="chart-bar-fill" id="bar-mon" style="height: 0%"></div>
+                                </div>
+                                <span class="chart-bar-label">M</span>
+                            </div>
+                            <div class="chart-bar-col">
+                                <div class="chart-bar-wrapper" title="Tue Completions">
+                                    <div class="chart-bar-fill" id="bar-tue" style="height: 0%"></div>
+                                </div>
+                                <span class="chart-bar-label">T</span>
+                            </div>
+                            <div class="chart-bar-col">
+                                <div class="chart-bar-wrapper" title="Wed Completions">
+                                    <div class="chart-bar-fill" id="bar-wed" style="height: 0%"></div>
+                                </div>
+                                <span class="chart-bar-label">W</span>
+                            </div>
+                            <div class="chart-bar-col">
+                                <div class="chart-bar-wrapper" title="Thu Completions">
+                                    <div class="chart-bar-fill" id="bar-thu" style="height: 0%"></div>
+                                </div>
+                                <span class="chart-bar-label">T</span>
+                            </div>
+                            <div class="chart-bar-col">
+                                <div class="chart-bar-wrapper" title="Fri Completions">
+                                    <div class="chart-bar-fill" id="bar-fri" style="height: 0%"></div>
+                                </div>
+                                <span class="chart-bar-label">F</span>
+                            </div>
+                            <div class="chart-bar-col">
+                                <div class="chart-bar-wrapper" title="Sat Completions">
+                                    <div class="chart-bar-fill" id="bar-sat" style="height: 0%"></div>
+                                </div>
+                                <span class="chart-bar-label">S</span>
+                            </div>
+                            <div class="chart-bar-col">
+                                <div class="chart-bar-wrapper" title="Sun Completions">
+                                    <div class="chart-bar-fill" id="bar-sun" style="height: 0%"></div>
+                                </div>
+                                <span class="chart-bar-label">S</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Panel: Gamification & Streak Landscape -->
+                <div class="stats-panel-col gamification-panel">
+                    <div class="gamification-header">
+                        <h2 class="stats-title">Gamification</h2>
+                        <div id="streak-badge" class="streak-badge glass-pill" title="Consecutive Productive Days!">
+                            <span>🔥</span> <span id="streak-count">0</span> Day Streak
+                        </div>
+                    </div>
+                    <div class="gamification-body-flex">
+                        <div class="level-seal-container">
+                            <div class="level-seal" title="Your current progression level!">
+                                <span class="level-seal-label">LVL</span>
+                                <span id="user-level" class="level-seal-number">1</span>
+                            </div>
+                        </div>
+                        <div class="xp-progress-column">
+                            <div class="xp-details-row">
+                                <span class="xp-progress-title">XP Progression</span>
+                                <span id="user-xp-ratio" class="xp-ratio-text">0 / 100 XP</span>
+                            </div>
+                            <div class="xp-progress-bar-container glass-pill-inset">
+                                <div id="xp-progress-fill" class="xp-progress-bar-fill"></div>
+                            </div>
+                            <p class="xp-motivation-quote">Earn +10 XP for completing focus items!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Symmetrical Vertical Pomodoro -->
+                <div class="stats-panel-col pomodoro-panel" id="pomodoro-panel-widget">
+                    <div class="pomodoro-header">
+                        <h2 class="stats-title">Pomodoro</h2>
+                        <button id="sound-toggle-btn" class="sound-toggle-btn action-btn" title="Toggle Sound Design">
+                            <i data-lucide="volume-2" id="sound-icon"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Sound Settings Popover -->
+                    <div class="pomo-sound-popover glass-card" id="pomo-sound-popover">
+                        <div class="popover-header-row">
+                            <span class="popover-title">Sound Settings</span>
+                            <button id="popover-mute-btn" class="popover-mute-btn" title="Mute/Unmute focus audio">
+                                <i data-lucide="volume-2" id="popover-mute-icon"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Volume Slider -->
+                        <div class="volume-control-group">
+                            <label for="pomo-volume-slider" class="control-label">Volume</label>
+                            <div class="slider-wrapper">
+                                <i data-lucide="volume-1" class="slider-icon-low"></i>
+                                <input type="range" id="pomo-volume-slider" min="0" max="100" value="50" class="glass-slider">
+                                <i data-lucide="volume-2" class="slider-icon-high"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Ambient Sound Options -->
+                        <div class="ambience-control-group">
+                            <span class="control-label">Focus Ambience</span>
+                            <div class="ambience-options-grid">
+                                <button type="button" class="ambience-btn active" data-ambience="none">None</button>
+                                <button type="button" class="ambience-btn" data-ambience="rain">🌧️ Rain</button>
+                                <button type="button" class="ambience-btn" data-ambience="noise">🌊 Waterfall</button>
+                                <button type="button" class="ambience-btn" data-ambience="drone">🧘 Drone</button>
+                                <button type="button" class="ambience-btn" data-ambience="wind">🌬️ Wind</button>
+                                <button type="button" class="ambience-btn" data-ambience="fire">🔥 Fire</button>
+                                <button type="button" class="ambience-btn" data-ambience="ocean">🌊 Ocean</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pomodoro-body-centered">
+                        <!-- Custom Duration Selector -->
+                        <div class="pomo-duration-selector" id="pomo-duration-selector">
+                            <span class="picker-label">⏱️ Set Timer:</span>
+                            <select id="pomo-duration-dropdown" class="glass-select">
+                                <option value="15">15 min</option>
+                                <option value="25">25 min</option>
+                                <option value="30" selected>30 min</option>
+                                <option value="45">45 min</option>
+                                <option value="60">60 min</option>
+                                <option value="custom">🖊️ Custom</option>
+                            </select>
+                            <div class="pomo-duration-custom" id="pomo-duration-custom-container" style="display: none; margin-left: 0.5rem; background: transparent; padding: 0; border: none;">
+                                <input type="number" id="pomo-custom-input" class="pomo-custom-input" min="1" max="180" placeholder="" style="width: 50px;">
+                                <span class="pomo-custom-label">mins</span>
+                            </div>
+                        </div>
+
+                        <!-- Pomodoro Mode Badge -->
+                        <span id="pomo-mode-label" class="pomo-mode-badge">Focus</span>
+
+                        <div class="pomo-ring-container-large">
+                            <svg class="pomo-ring-large" width="96" height="96" viewBox="0 0 96 96">
+                                <circle class="pomo-ring__circle-bg" stroke="rgba(255, 255, 255, 0.12)" stroke-width="6" fill="transparent" r="42" cx="48" cy="48" />
+                                <circle id="pomo-ring-bar" class="pomo-ring__circle" stroke="url(#pomo-gradient)" stroke-width="6" stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-linecap="round" fill="transparent" r="42" cx="48" cy="48" />
+                                <defs>
+                                    <linearGradient id="pomo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#c084fc" />
+                                        <stop offset="100%" stop-color="#818cf8" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <span id="pomo-time-display" class="pomo-timer-digits-large">25:00</span>
+                        </div>
+                        <div class="pomo-controls-row">
+                            <div class="pomo-buttons-row">
+                                <button id="pomo-play-btn" class="action-btn-pomo" title="Start/Pause Focus"><i data-lucide="play"></i></button>
+                                <button id="pomo-reset-btn" class="action-btn-pomo" title="Reset Session"><i data-lucide="rotate-ccw"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Single-Line Compact Command Center Strip -->
+            <div class="compact-dashboard-strip collapsed" id="compact-dashboard-strip">
+                <div class="compact-strip-col progress-compact">
+                    <span class="compact-label">Progress</span>
+                    <div class="compact-progress-flex">
+                        <div class="mini-progress-ring-container">
+                            <svg width="24" height="24" class="mini-progress-ring">
+                                <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.12)" stroke-width="2.5" fill="transparent" />
+                                <circle id="compact-progress-bar" cx="12" cy="12" r="10" stroke="url(#progress-gradient)" stroke-width="2.5" stroke-dasharray="62.83" stroke-dashoffset="62.83" stroke-linecap="round" fill="transparent" />
+                            </svg>
+                        </div>
+                        <span id="compact-percentage" class="compact-value">0%</span>
+                    </div>
+                </div>
+                
+                <div class="compact-strip-col level-compact">
+                    <span class="compact-label">Level</span>
+                    <span id="compact-level" class="compact-value-badge">Lvl 1</span>
+                </div>
+                
+                <div class="compact-strip-col streak-compact">
+                    <span class="compact-label">Streak</span>
+                    <span id="compact-streak" class="compact-streak-badge">🔥 0</span>
+                </div>
+                
+                <div class="compact-strip-col pomodoro-compact">
+                    <span class="compact-label">Focus clock</span>
+                    <div class="compact-pomo-flex">
+                        <span id="compact-pomo-time" class="compact-value-pomo">25:00</span>
+                        <span id="compact-pomo-mode" class="compact-pomo-mode-badge">Focus</span>
+                        <button id="compact-pomo-play" class="compact-play-btn" title="Play/Pause"><i data-lucide="play"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Horizontal Progress Bar for smaller screens -->
+            <div class="horizontal-progress-bar-container">
+                <div id="horizontal-progress" class="horizontal-progress-fill"></div>
+            </div>
+        </section>
+
+        <!-- Main Task Area -->
+        <main class="main-content">
+            <!-- Add Task Form -->
+            <section class="input-section glass-card">
+                <form id="todo-form" class="todo-form-container">
+                    <div id="input-container-box" class="input-wrapper">
+                        <i data-lucide="plus-circle" class="input-icon"></i>
+                        <input type="text" id="task-input" placeholder="What is your next focus...?" autocomplete="off" maxlength="120" required>
+                    </div>
+                    
+                    <div class="form-controls">
+                        <!-- Priority Picker -->
+                        <div class="form-control-pill priority-control">
+                            <span class="picker-label">Priority:</span>
+                            <div class="priority-options">
+                                <label class="priority-label low active">
+                                    <input type="radio" name="priority" value="low" checked>
+                                    <span class="dot low"></span> Low
+                                </label>
+                                <label class="priority-label medium">
+                                    <input type="radio" name="priority" value="medium">
+                                    <span class="dot medium"></span> Medium
+                                </label>
+                                <label class="priority-label high">
+                                    <input type="radio" name="priority" value="high">
+                                    <span class="dot high"></span> High
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Category Selector -->
+                        <div class="form-control-pill category-control">
+                            <span class="picker-label">Category:</span>
+                            <select id="task-category" class="glass-select">
+                                <option value="work" selected>💼 Work</option>
+                                <option value="study">📚 Study</option>
+                                <option value="personal">👤 Personal</option>
+                                <option value="health">🍀 Health</option>
+                                <option value="custom">✨ Custom</option>
+                            </select>
+                            <input type="text" id="task-category-custom" class="glass-input-custom-cat" placeholder="Category name..." style="display: none; margin-left: 0.5rem;">
+                        </div>
+
+                        <!-- Due Date Picker -->
+                        <div class="form-control-pill duedate-control">
+                            <span class="picker-label">Due Date:</span>
+                            <input type="date" id="task-duedate" class="glass-input-date">
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" id="add-task-btn" class="submit-btn gradient-btn">
+                            <span>Add Task</span>
+                            <i data-lucide="plus" class="btn-icon"></i>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Filters & Actions Header -->
+            <section class="task-header">
+                <div class="filters-container glass-pill">
+                    <div id="active-filter-pill" class="active-filter-pill"></div>
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="pending">Pending</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                </div>
+
+                <!-- Instant Search Bar Pill -->
+                <div class="search-container glass-pill">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search focus item..." autocomplete="off">
+                </div>
+                
+                <button id="clear-completed-btn" class="clear-btn glass-pill" aria-label="Clear completed tasks">
+                    <i data-lucide="trash-2"></i>
+                    <span>Clear Completed</span>
+                </button>
+            </section>
+
+            <!-- Task List Container -->
+            <section class="task-list-section">
+                <ul id="task-list" class="task-list">
+                    <!-- Tasks dynamically rendered -->
+                </ul>
+                
+                <!-- Empty State -->
+                <div id="empty-state" class="empty-state">
+                    <div class="empty-illustration">
+                        <svg viewBox="0 0 200 200" width="160" height="160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g class="float-animation">
+                                <!-- Sparkles -->
+                                <path d="M165 40L168 46L174 49L168 52L165 58L162 52L156 49L162 46L165 40Z" fill="url(#sparkle-grad)" />
+                                <path d="M35 130L37 134L41 136L37 138L35 142L33 138L29 136L33 134L35 130Z" fill="url(#sparkle-grad)" />
+                                <path d="M150 150L151.5 153L154.5 154.5L151.5 156L150 159L148.5 156L145.5 154.5L148.5 153L150 150Z" fill="url(#sparkle-grad)" />
+                                
+                                <!-- Floating Document -->
+                                <rect x="50" y="50" width="100" height="110" rx="16" fill="rgba(255, 255, 255, 0.4)" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2" class="glass-bg" />
+                                <rect x="50" y="50" width="100" height="110" rx="16" fill="url(#doc-grad)" opacity="0.15" />
+                                
+                                <!-- Task Lines -->
+                                <rect x="70" y="80" width="60" height="8" rx="4" fill="rgba(255, 255, 255, 0.8)" class="line-animate-1" />
+                                <rect x="70" y="100" width="45" height="8" rx="4" fill="rgba(255, 255, 255, 0.8)" class="line-animate-2" />
+                                <rect x="70" y="120" width="55" height="8" rx="4" fill="rgba(255, 255, 255, 0.8)" class="line-animate-3" />
+                                
+                                <!-- Status Circles -->
+                                <circle cx="60" cy="84" r="4" fill="#a78bfa" />
+                                <circle cx="60" cy="104" r="4" fill="#f472b6" />
+                                <circle cx="60" cy="124" r="4" fill="#818cf8" />
+                            </g>
+                            <defs>
+                                <linearGradient id="sparkle-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#fbbf24" />
+                                    <stop offset="100%" stop-color="#f59e0b" />
+                                </linearGradient>
+                                <linearGradient id="doc-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#8b5cf6" />
+                                    <stop offset="100%" stop-color="#ec4899" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3 class="empty-title">A Beautiful Clean Slate</h3>
+                    <p class="empty-subtitle">No tasks yet. Organize your chaos ✨</p>
+                </div>
+            </section>
+
+            <!-- Collapsible Achievements Badges Gallery Section -->
+            <section class="achievements-section glass-card">
+                <div id="achievements-toggle-header" class="achievements-toggle-header">
+                    <div class="achievements-header-title">
+                        <i data-lucide="award" class="achievements-icon-badge"></i>
+                        <h2>Unlockable Trophies</h2>
+                    </div>
+                    <i data-lucide="chevron-down" id="achievements-chevron" class="chevron-arrow"></i>
+                </div>
+                <div id="achievements-grid-wrapper" class="achievements-grid-wrapper collapsed">
+                    <div class="achievements-grid">
+                        
+                        <!-- Badge 1: Task Slayer -->
+                        <div class="badge-card glass-pill-inset locked" id="badge-slayer" data-badge="slayer">
+                            <div class="badge-icon-circle"><i data-lucide="shield-check"></i></div>
+                            <div class="badge-card-info">
+                                  <h3>Task Slayer</h3>
+                                  <p>Completed first focus item</p>
+                            </div>
+                        </div>
+
+                        <!-- Badge 2: Consistency King -->
+                        <div class="badge-card glass-pill-inset locked" id="badge-streak3" data-badge="streak3">
+                            <div class="badge-icon-circle"><i data-lucide="flame"></i></div>
+                            <div class="badge-card-info">
+                                  <h3>Consistency King</h3>
+                                  <p>Reached a 3-Day streak</p>
+                            </div>
+                        </div>
+
+                        <!-- Badge 3: Focus Master -->
+                        <div class="badge-card glass-pill-inset locked" id="badge-pomo1" data-badge="pomo1">
+                            <div class="badge-icon-circle"><i data-lucide="clock"></i></div>
+                            <div class="badge-card-info">
+                                  <h3>Focus Master</h3>
+                                  <p>Completed 1 Pomodoro session</p>
+                            </div>
+                        </div>
+
+                        <!-- Badge 4: Productivity Beast -->
+                        <div class="badge-card glass-pill-inset locked" id="badge-beast" data-badge="beast">
+                            <div class="badge-icon-circle"><i data-lucide="zap"></i></div>
+                            <div class="badge-card-info">
+                                  <h3>Productivity Beast</h3>
+                                  <p>Completed 10 tasks total</p>
+                            </div>
+                        </div>
+
+                        <!-- Badge 5: Consistency Overlord -->
+                        <div class="badge-card glass-pill-inset locked" id="badge-streak7" data-badge="streak7">
+                            <div class="badge-icon-circle"><i data-lucide="crown"></i></div>
+                            <div class="badge-card-info">
+                                  <h3>Consistency Overlord</h3>
+                                  <p>Reached a 7-Day streak</p>
+                            </div>
+                        </div>
+
+                        <!-- Badge 6: Centurion Slayer -->
+                        <div class="badge-card glass-pill-inset locked" id="badge-centurion" data-badge="centurion">
+                            <div class="badge-icon-circle"><i data-lucide="trophy"></i></div>
+                            <div class="badge-card-info">
+                                  <h3>Centurion Slayer</h3>
+                                  <p>Completed 100 tasks total</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- App Footer -->
+        <footer class="app-footer">
+            <p>Designed with ❤️ for professionals. Organize. Track. Level Up. ✨</p>
+        </footer>
+    </div>
+
+    <!-- Elegant Glassmorphic Task Edit Modal Overlay -->
+    <div id="edit-modal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3>Edit Task Focus</h3>
+                <button id="modal-close-btn" class="modal-close-icon-btn" aria-label="Close modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="edit-task-input" placeholder="Update your focus..." autocomplete="off" maxlength="120">
+            </div>
+            <div class="modal-footer">
+                <button id="modal-cancel-btn" class="btn-cancel glass-pill">Cancel</button>
+                <button id="modal-save-btn" class="btn-save gradient-btn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Immersive Focus Mode Fullscreen Workspace Overlay Layer -->
+    <div id="focus-overlay" class="focus-overlay">
+        <button id="exit-focus-btn" class="exit-focus-btn glass-pill" aria-label="Exit focus mode">
+            <i data-lucide="arrow-left"></i> <span>Exit Focus</span>
+        </button>
+        <div class="focus-content glass-card">
+            <div class="focus-task-card">
+                <span id="focus-task-category" class="cat-tag work">Work</span>
+                <h2 id="focus-task-title">Draft platform roadmap</h2>
+                
+                <!-- Expanded Pomodoro circular ring -->
+                <div class="focus-timer-ring">
+                    <svg width="220" height="220" class="focus-svg-ring" viewBox="0 0 220 220">
+                        <circle cx="110" cy="110" r="95" stroke="rgba(255, 255, 255, 0.05)" stroke-width="9" fill="transparent"/>
+                        <circle id="focus-timer-bar" cx="110" cy="110" r="95" stroke="url(#focus-ring-grad)" stroke-width="9" stroke-dasharray="596.9" stroke-dashoffset="596.9" stroke-linecap="round" fill="transparent"/>
+                        <defs>
+                            <linearGradient id="focus-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#c084fc"/>
+                                <stop offset="100%" stop-color="#f472b6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="focus-timer-text">
+                        <span id="focus-timer-countdown">25:00</span>
+                        <span id="focus-timer-status" class="glass-pill">Focus Mode</span>
+                    </div>
+                </div>
+
+                <div class="focus-timer-controls">
+                    <button id="focus-play-btn" class="action-btn" title="Play/Pause Session"><i data-lucide="play"></i></button>
+                    <button id="focus-reset-btn" class="action-btn" title="Reset Timer"><i data-lucide="rotate-ccw"></i></button>
+                </div>
+
+                <button id="focus-complete-btn" class="focus-complete-btn gradient-btn">
+                    <i data-lucide="check-circle-2"></i> <span>Complete Focus Item</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Toast Notification Wrapper -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Custom Script -->
+    <script src="script.js?v=5.4"></script>
+</body>
+</html>
